@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED } from 'react/cjs/react.production.min';
 import './App.css';
 import MovieForm from './components/MovieForm';
 import UserForm from './components/UserForm';
@@ -15,15 +16,57 @@ function App() {
   }, []);
 
   const handleRegister = async ({ username, password }) => {
-    
+    const user = {
+      username: username,
+      password: password
+    }
+
+    fetch("http://localhost:4000/user/register", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(user)
+    })
+      .then(res => res.json())
+      .then(res => setRegisterResponse(res))
   };
 
   const handleLogin = async ({ username, password }) => {
-    
+    const user = {
+      username: username,
+      password: password
+    }
+
+    fetch("http://localhost:4000/user/login", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(user)
+    })
+      .then(res => res.json())
+      .then(res => setLoginResponse(res))
+      .then(res => localStorage.setItem('loginInfo', res))
   };
-  
+
   const handleCreateMovie = async ({ title, description, runtimeMins }) => {
-    
+    const movie = {
+      title: title,
+      description: description,
+      runtimeMins: runtimeMins
+    }
+
+    fetch("http://localhost:4000/movie/", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        "Authorization": localStorage.getItem('loginInfo')
+      },
+      body: JSON.stringify(movie)
+    })
+      .then(res => res.json())
+      .then(res => setRegisterResponse(res))
   }
 
   return (
