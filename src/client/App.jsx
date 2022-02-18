@@ -66,7 +66,7 @@ function App() {
       body: JSON.stringify(movie)
     })
       .then(res => res.json())
-      .then(res => setRegisterResponse(res))
+      .then(res => setMovies(res))
   }
 
   return (
